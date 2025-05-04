@@ -4,7 +4,9 @@ const Admission = require('../models/AdmissionEnquiry');
 const Teacher = require('../models/TeacherEnquiry');
 
 router.get('/', async (req, res) => {
-  if (!req.session.adminId) return res.redirect('/login');
+  if (!req.session.adminId) {
+    return res.redirect('/');
+  }
 
   const admissionData = await Admission.find();
   const teacherData = await Teacher.find();

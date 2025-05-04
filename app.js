@@ -10,6 +10,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -21,10 +22,11 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
+// Routes
 const authRoutes = require('./routes/auth');
 const dashboardRoutes = require('./routes/dashboard');
 
-app.use('/', authRoutes);
-app.use('/dashboard', dashboardRoutes);
+app.use('/', authRoutes);             // Handles /, /login, /register
+app.use('/dashboard', dashboardRoutes); // Handles /dashboard
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));
